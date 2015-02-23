@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Edicion_Equipo</title>
+</h:head>
+<body>
+<h:form id="form">
+		<p:commandButton update="form" value="Atras"  icon="ui-icon-arrowreturnthick-1-w"  action="#{horaBean.irAtras}"></p:commandButton>
+	</h:form>
+<hr/>
+	<h:form id="form1" style="width: 933px; ">
+		<p:panel id="panel1"  header="Edicion de Equipo">
+		<p:panelGrid columns="3" >
+			<h:outputText value="Nombre*"/>
+			<p:inputText required="true" id="nombre" value="#{equipoBean.nombre}" requiredMessage="Nombre Requerido"></p:inputText>
+			<p:message for="nombre"></p:message>
+			<h:outputText value="Torneo*"/>
+			<h:panelGroup>  
+					<p:selectOneMenu required="true" id="torneo" value="#{equipoBean.idTorneo}" requiredMessage="Torneo Requerido">
+						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />
+						<f:selectItems value="#{equipoBean.listaTorneo}" />
+						<p:ajax
+							listener="#{equipoBean.asignar()}">
+						</p:ajax>
+					</p:selectOneMenu>
+					<p:message for="torneo"></p:message>
+			</h:panelGroup>
+			<h:outputText value=""/>
+			<h:outputText value="Lugar"/>
+			<p:inputText required="false" id="lugar" value="#{equipoBean.lugar}" requiredMessage="Lugar Requerido"></p:inputText>
+			<p:message for="lugar"></p:message>
+			<h:outputText value="Descripcion"/>
+			<p:inputText required="false" id="descripcion" value="#{equipoBean.descripcion}" requiredMessage="Descripcion Requerido"></p:inputText>
+			<p:message for="descripcion"></p:message>
+			<p:commandButton value="Actualizar" action="#{equipoBean.actualizarEquipo}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="Torneo" transaction-type="RESOURCE_LOCAL">
+		<class>model.dao.entities.Equipo</class>
+		<class>model.dao.entities.Estadio</class>
+		<class>model.dao.entities.Jugadore</class>
+		<class>model.dao.entities.Partido</class>
+		<class>model.dao.entities.Posicione</class>
+		<class>model.dao.entities.TipoSancion</class>
+		<class>model.dao.entities.Torneo</class>
+		<class>model.dao.entities.TipoUsuario</class>
+		<class>model.dao.entities.Usuario</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Torneo"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value="root"/>
+		</properties>
+	</persistence-unit>
+</persistence>

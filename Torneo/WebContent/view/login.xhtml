@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Login</title>
+</h:head>
+<body>
+<p:commandButton update="panel1" value="Ingresar" icon="ui-icon-circle-triangle-e" type="button" onclick="PF('dlg').show();"></p:commandButton>
+
+<p:dialog header="Ingreso al Sistema" widgetVar="dlg" showEffect="explode" hideEffect="bounce" height="150">
+	<h:form>
+	<p:growl id="growl" showDetail="true" sticky="true" />  
+	<p:panel id="panel1">
+		<h:panelGrid columns="2">
+			<h:outputText value="Nick"></h:outputText>
+			<p:inputText required="true" id="nick" requiredMessage="Nick Requerido" value="#{usuarioBean.nick}"></p:inputText>
+			<h:outputText value="Contraseña"></h:outputText>
+			<p:inputText type="password" required="true" id="pass" requiredMessage="Contraseña Requerida" value="#{usuarioBean.pass}" ></p:inputText>
+			<p:commandButton update="panel1 growl" value="Ingresar" action="#{usuarioBean.acceso}"></p:commandButton>
+		</h:panelGrid>
+	</p:panel>
+	</h:form>
+</p:dialog>
+
+</body>
+</html>

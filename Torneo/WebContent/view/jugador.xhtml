@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Jugadores</title>
+</h:head>
+<body>
+<h:form id="form" enctype="multipart/form-data"  >
+		<p:commandButton update="form" value="Atras"  icon="ui-icon-arrowreturnthick-1-w"></p:commandButton>
+	</h:form>
+<hr/>
+	<h:form id="form1" enctype="multipart/form-data" style="width: 100%; ">
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<p:fieldset legend="Registro de Jugadores" toggleable="true" toggleSpeed="500">
+		<p:panel id="panel1">
+		<p:panelGrid columns="3" >
+			<h:outputText value="Nombre*"/>
+			<p:inputText required="true" id="nombre" value="#{jugadorBean.nombre}" requiredMessage="Nombre Requerido"></p:inputText>
+			<p:message for="nombre"></p:message>
+			<h:outputText value="Apellido*"/>
+			<p:inputText required="true" id="apellido" value="#{jugadorBean.apellido}" requiredMessage="Apellido Requerido"></p:inputText>
+			<p:message for="apellido"></p:message>
+			<h:outputText value="Equipo*"/>
+			<h:panelGroup>  
+					<p:selectOneMenu value="#{jugadorBean.idEquipo}">
+						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />
+						<f:selectItems value="#{jugadorBean.listaEquipos}" />
+						<p:ajax
+							listener="#{jugadorBean.asignar()}">
+						</p:ajax>
+					</p:selectOneMenu>
+			</h:panelGroup>
+			<h:outputText value=""/>
+			<h:outputText value="Numero*"/>
+			<p:inputText required="true" id="numero" value="#{jugadorBean.numero}" requiredMessage="Numero Requerido"></p:inputText>
+			<p:message for="numero"></p:message>
+			<h:outputText value="Fecha de Nacimiento*"/>
+			<p:calendar required="true" id="fecha" navigator="true" value="#{jugadorBean.fechaNac}" requiredMessage="fecha Requerida" effect="fold"/>
+			<p:message for="fecha"></p:message>
+			<h:outputText value="Edad"/>
+			<p:inputText required="true" id="edad" value="#{jugadorBean.edad}" requiredMessage="Edad Requerida"></p:inputText>
+			<p:message for="edad"></p:message>
+			<h:outputText value="Foto"/>
+			<p:commandButton onclick="dlg.show()" value="Examinar"></p:commandButton>
+			<p:commandButton update="panel1 growl :form2" value="Insertar" icon="ui-icon-check" action="#{jugadorBean.CrearJugador}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+	</p:fieldset>
+	
+	<p:dialog header="Ingreso de Imagen" widgetVar="dlg" modal="true" height="150">
+  		 <p:fileUpload fileUploadListener="#{jugadorBean.UploadImage}" label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Subir" mode="advanced" dragDropSupport="false" fileLimit="10000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+	</p:dialog>   
+	
+</h:form>
+<hr />
+<h:form id="form2" enctype="multipart/form-data"  >
+	<p:dataGrid var="lu" value="#{jugadorBean.listJugador}" columns="4" layout="grid"
+        rows="12" paginator="true" id="data2"
+        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="8,12,16">
+ 
+        <f:facet name="header">
+            Jugadores
+        </f:facet>
+ 
+        <p:panel header="#{lu.equipo.nombre}" style="text-align:center">
+            <h:panelGrid columns="1" style="width:100%">
+              	<p:graphicImage  value="#{jugadorBean.getImage()}" height="100" width="150">
+              		<f:param value="#{lu.idJugador}" name="idJug"/>
+              	</p:graphicImage>
+                <h:outputText value="#{lu.nombre} #{lu.apellido}"/>
+ 
+              <p:commandLink update=":form2:jugDialog" oncomplete="PF('jugDialog').show()" title="Ver Detalle">
+                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                    <f:setPropertyActionListener value="#{lu}" target="#{jugadorBean.selectJug}" />
+                </p:commandLink>
+                 <h:panelGrid columns="2" style="width:100%">
+                    <p:commandButton title="Eliminar" icon="ui-icon-trash" style="margin:0 auto;" update=":form2" action="#{jugadorBean.EliminarJugador(lu)}"></p:commandButton>
+                    <p:commandButton title="Editar" icon="ui-icon-pencil" style="margin:0 auto;" action="#{jugadorBean.cargarJugador(lu)}"></p:commandButton>
+            	</h:panelGrid>
+            </h:panelGrid>
+        </p:panel>
+   </p:dataGrid>
+ 
+ <p:dialog header="Info_Jugador" widgetVar="jugDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="jugDialog" style="text-align:center;">
+            <p:panelGrid  columns="2" columnClasses="label,value">
+                <f:facet name="header">
+                  	<p:graphicImage  value="#{jugadorBean.getImage()}" height="100" width="150">
+              		<f:param value="#{jugadorBean.selectJug.idJugador}" name="idJug"/>
+              	</p:graphicImage>
+                </f:facet>
+                <h:outputText value="Nombre:" />
+                <h:outputText value="#{jugadorBean.selectJug.nombre}" />
+ 
+                <h:outputText value="Apellido" />
+                <h:outputText value="#{jugadorBean.selectJug.apellido}" />
+ 
+                <h:outputText value="Numero:" />
+                <h:outputText value="#{jugadorBean.selectJug.numero}" />
+ 
+                <h:outputText value="Fecha" />
+                <h:outputText value="#{jugadorBean.selectJug.fechaNac}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                
+                <h:outputText value="Edad:" />
+                <h:outputText value="#{jugadorBean.selectJug.edad}" />
+                
+                <h:outputText value="Amarillas:" />
+                <h:outputText value="#{jugadorBean.selectJug.amarillas}" />
+                
+                <h:outputText value="Rojas:" />
+                <h:outputText value="#{jugadorBean.selectJug.rojas}" />
+                
+                <h:outputText value="Goles:" />
+                <h:outputText value="#{jugadorBean.selectJug.goles}" />
+                
+                <h:outputText value="Sancion:" />
+                <h:outputText value="#{jugadorBean.selectJug.sancion}" />
+  
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+    
+</h:form>
+</body>
+</html>

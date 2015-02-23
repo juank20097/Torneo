@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Torneo</title>
+</h:head>
+<body>
+<h:form id="form">
+		<p:growl id="message" showDetail="true" />
+		<p:menubar>
+        <p:submenu label="Admin" icon="ui-icon-document" >
+            <p:submenu label="Nuevo" icon="ui-icon-contact" >
+                <p:menuitem value="Usuario" url="#" />
+                <p:menuitem value="Tipo_Usuario" url="#" />
+            </p:submenu>
+            <p:separator />
+            <p:menuitem value="Salir" url="#" />
+        </p:submenu>
+ 
+        <p:submenu label="Ingresar" icon="ui-icon-pencil">
+        	 <p:menuitem value="Partido" url="#" />
+             <p:separator />
+                <p:separator />
+            <p:submenu label="Nuevo" icon="ui-icon-contact" >
+                <p:menuitem value="Torneo" url="#" />
+                <p:menuitem value="Equipo" url="#" />
+                <p:menuitem value="Jugador" url="#" />
+                <p:menuitem value="Estadio" url="#" />
+            </p:submenu>
+            <p:menuitem value="Sanciones" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+        </p:submenu>
+ 
+        <p:submenu label="Vistas" icon="ui-icon-help">
+            <p:menuitem value="Tabla de Posiciones" url="#" />
+             <p:submenu label="Torneo" icon="ui-icon-contact" >
+                <p:menuitem value="Tabla" url="#" />
+            </p:submenu>
+             <p:submenu label="Equipo" icon="ui-icon-contact" >
+                <p:menuitem value="Tabla" url="#" />
+            </p:submenu>
+             <p:submenu label="Jugadores" icon="ui-icon-contact" >
+                <p:menuitem value="Tabla" url="#" />
+            </p:submenu>
+             <p:submenu label="Partidos" icon="ui-icon-contact" >
+                <p:menuitem value="Tabla" url="#" />
+            </p:submenu>
+        </p:submenu>
+ 
+        <p:submenu label="Ayuda" icon="ui-icon-gear">
+            <p:menuitem value="Informacion" url="#" />
+             <p:separator />
+            <p:menuitem value="Desarrollador" url="#" />
+        </p:submenu>
+ 
+        <f:facet name="options">
+            <p:commandButton value="Salir" action="#{usuarioBean.cerrar}" icon="ui-icon-extlink" update="message">
+        		<p:confirm header="Confirmacion" message="Seguro quiere salir?" icon="ui-icon-alert" />
+    		</p:commandButton>
+ 
+    		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+        		<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+       			 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+       </f:facet>
+    </p:menubar>
+	</h:form>
+<hr/>
+	<h:form id="form1" style="width: 933px; ">
+		<p:panel id="panel1"  header="Registro de Torneo">
+		<p:panelGrid columns="3" >
+			<h:outputText value="Nombre*"/>
+			<p:inputText required="true" id="nombre" value="#{torneoBean.nombre}" requiredMessage="Nombre Requerido"></p:inputText>
+			<p:message for="nombre"></p:message>
+			<h:outputText value="Tipo*"/>
+			<p:inputText required="true" id="tipo" value="#{torneoBean.tipo}" requiredMessage="Tipo Requerido"></p:inputText>
+			<p:message for="tipo"></p:message>
+			<p:commandButton update="panel1 :form2:panel2" value="Insertar" icon="ui-icon-check" action="#{torneoBean.CrearTorneo}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr />
+<h:form id="form2">
+	<p:panel id="panel2" header="Torneo Registrados">
+		<p:dataTable paginator="true" rows="5"  value="#{torneoBean.listTorneo}" var="lu">
+			<p:column headerText="NOMBRE">
+				<h:outputText value="#{lu.nombre}"></h:outputText>
+			</p:column>
+			<p:column headerText="TIPO">
+				<h:outputText value="#{lu.tipo}"></h:outputText>
+			</p:column>
+			<p:column headerText="ADMINISTRAR">
+			<p:commandButton icon="ui-icon-pencil"></p:commandButton>
+			</p:column>
+		</p:dataTable>			
+	</p:panel>
+</h:form>
+</body>
+</html>

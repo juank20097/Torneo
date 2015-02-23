@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Equipo</title>
+</h:head>
+<body>
+<h:form id="form">
+		<p:commandButton update="form" value="Atras"  icon="ui-icon-arrowreturnthick-1-w"  action="#{horaBean.irAtras}"></p:commandButton>
+	</h:form>
+<hr/>
+	<h:form id="form1" style="width: 933px; ">
+		<p:panel id="panel1"  header="Registro de Equipo">
+		<p:panelGrid columns="3" >
+			<h:outputText value="Nombre*"/>
+			<p:inputText required="true" id="nombre" value="#{equipoBean.nombre}" requiredMessage="Nombre Requerido"></p:inputText>
+			<p:message for="nombre"></p:message>
+			<h:outputText value="Torneo*"/>
+			<h:panelGroup>  
+					<p:selectOneMenu value="#{equipoBean.idTorneo}">
+						<f:selectItem  itemLabel="Seleccione...!!!!" itemValue="-1" />
+						<f:selectItems value="#{equipoBean.listaTorneo}" />
+						<p:ajax
+							listener="#{equipoBean.asignar()}">
+						</p:ajax>
+					</p:selectOneMenu>
+			</h:panelGroup>
+			<h:outputText value=""/>
+			<h:outputText value="Lugar"/>
+			<p:inputText required="false" id="lugar" value="#{equipoBean.lugar}" requiredMessage="Lugar Requerido"></p:inputText>
+			<p:message for="lugar"></p:message>
+			<h:outputText value="Descripcion"/>
+			<p:inputText required="false" id="descripcion" value="#{equipoBean.descripcion}" requiredMessage="Descripcion Requerido"></p:inputText>
+			<p:message for="descripcion"></p:message>
+			<p:commandButton update="panel1 :form2:panel2" value="Insertar" icon="ui-icon-check" action="#{equipoBean.CrearEquipo}"></p:commandButton>
+		</p:panelGrid>
+	</p:panel>
+</h:form>
+<hr />
+<h:form id="form2">
+	<p:panel id="panel2" header="Equipos Registrados">
+		<p:dataTable paginator="true" rows="5"  value="#{equipoBean.listEquipo}" var="lu">
+			<p:column headerText="NOMBRE">
+				<h:outputText value="#{lu.nombre}"></h:outputText>
+			</p:column>
+			<p:column headerText="TORNEO">
+				<h:outputText value="#{lu.torneo.nombre}"></h:outputText>
+			</p:column>
+			<p:column headerText="LUGAR">
+				<h:outputText value="#{lu.lugar}"></h:outputText>
+			</p:column>
+			<p:column headerText="DESCRIPCION">
+				<h:outputText value="#{lu.descripcion}"></h:outputText>
+			</p:column>
+			<p:column headerText="ADMINISTRAR">
+			<p:commandButton update=":form2:panel2" icon="ui-icon-trash" action="#{equipoBean.EliminarEquipo(lu)}"></p:commandButton>
+			<p:commandButton icon="ui-icon-pencil" action="#{equipoBean.cargarEquipo(lu)}"></p:commandButton>
+			</p:column>
+		</p:dataTable>			
+	</p:panel>
+</h:form>
+</body>
+</html>
